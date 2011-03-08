@@ -102,7 +102,7 @@ Generated using David A. Wheeler's 'SLOCCount'.
 * use `->{}` instead of `proc` or `lambda` (this is why it depends on 1.9)
 
 * add methods for class scope to `$o` and for instance scope to `$a` (or `$o`),
-  see http://www.sinatrarb.com/intro#Scopes%20and%20Binding
+  see [Scopes And Binding](http://www.sinatrarb.com/intro#Scopes%20and%20Binding)
 
 * don't include tests. tests just bloat the code base. just commit, the users
   will complain if you break anything.
