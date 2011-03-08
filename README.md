@@ -109,4 +109,4 @@ Generated using David A. Wheeler's 'SLOCCount'.
 
 ## About Versioning
 
-Versions are to Software what Git is to SVN.
+Versions are to Software what Subversion is to Git.
