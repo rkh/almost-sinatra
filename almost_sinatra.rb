@@ -1,4 +1,4 @@
-['rack', 'tilt', 'backports', :INT, :TERM].map{|l|(l==l.to_s)?(require(l)):(trap(l){$r.stop})}
+%w.rack tilt backports INT TERM..map{|l|trap(l){$r.stop}rescue require(l)}
 R=Rack;$n=Sinatra=Module.new{$a,$o,$d,$h,$s,$f,$p=R::Builder.new,Object,:define_method,Hash,/@@ *([^\n]+)\n(((?!@@)[^\n]*\n)*)/m,File,4567;Application=$a}
 %w[get post put delete].map{|m|$o.send($d,m){|u,&b|$a.map(u){run->(e){[200,{"Content-Type"=>"text/html"},[$a.instance_eval(&b)]]}}}}
 Tilt.mappings.map{|k,v|$o.send($d,k){|n,*o|$t||=$f.read(caller.first[/^[^:]+/]).scan($s).inject({}){|h,(a,b,c)|h[a]=b;h};v.new(*o){(n.to_s==n)?(n):($t[n.to_s])}.render($a,o[0].try(:[],:locals)||{})}}
