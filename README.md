@@ -19,14 +19,8 @@ Features:
 * inline templates
 * thread safe
 
-Features missing:
-
-* serving static files, use `Rack::File` or something, or code like this:
-
-        get('/foo.txt') { File.read '/foo.txt' }
-
-  or just don't do it. Patch for this will be accepted if it doesn't add
-  another line.
+It is considered fully compatible with Sinatra. If your app does not run with
+Almost Sinatra, please open a [Sinatra issue](https://github.com/sinatra/sinatra/issues).
 
 ## Installation
 
