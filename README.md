@@ -1,5 +1,8 @@
 # Almost Sinatra
 
+    "until programmers stop acting like obfuscation is morally hazardous,
+    they’re not artists, just kids who don’t want their food to touch." - _why
+
 A Sinatra implementation in less than 10 lines.
 Dependencies: Tilt and Rack (like Sinatra) and [Backports](https://github.com/marcandre/backports/).
 Only works on Ruby 1.9.
