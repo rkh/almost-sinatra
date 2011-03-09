@@ -18,6 +18,7 @@ Features:
 * stand alone usage
 * inline templates
 * thread safe
+* works with Padrino
 
 It is considered fully compatible with Sinatra. If your app does not run with
 Almost Sinatra, please open a [Sinatra issue](https://github.com/sinatra/sinatra/issues).
