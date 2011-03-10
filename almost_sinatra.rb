@@ -1,5 +1,5 @@
 %w.rack tilt backports INT TERM..map{|l|trap(l){R.stop}rescue require l}
-$n=Sinatra=Module.new{extend Rack;a,D,p,q,Application=Builder.new,Object.method(:define_method),4567,a
+$n=Sinatra=Module.new{extend Rack;a=Application=Builder.new;D,p,q=Object.method(:define_method),4567
 %w[get post put delete].map{|m|D.(m){|u,&b|a.map(u){run->(e){[200,{"Content-Type"=>"text/html"},[a.instance_eval(&b)]]}}}}
 Tilt.mappings.map{|k,v|D.(k){|n,*o|$t||=(h={};File.read(caller[0][/^[^:]+/]).scan(/@@ *([^
 ]+)
