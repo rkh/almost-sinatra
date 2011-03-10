@@ -18,15 +18,10 @@ Features:
 * stand alone usage
 * inline templates
 * thread safe
+* works with Padrino
 
-Features missing:
-
-* serving static files, use `Rack::File` or something, or code like this:
-
-        get('/foo.txt') { File.read '/foo.txt' }
-
-  or just don't do it. Patch for this will be accepted if it doesn't add
-  another line.
+It is considered fully compatible with Sinatra. If your app does not run with
+Almost Sinatra, please open a [Sinatra issue](https://github.com/sinatra/sinatra/issues).
 
 ## Installation
 
@@ -60,7 +55,7 @@ It's just amazing. No code is faster than no code.
     Estimated Average Number of Developers (Effort/Schedule)  = 0.03
     Total Estimated Cost to Develop                           = $ 170
      (average salary = $56,286/year, overhead = 2.40).
-    
+
     $ sloccount ../sinatra
     Total Physical Source Lines of Code (SLOC)                = 5,771
     Development Effort Estimate, Person-Years (Person-Months) = 1.26 (15.12)
@@ -98,7 +93,7 @@ Generated using David A. Wheeler's 'SLOCCount'.
 
         ['a','b',Rack::Something].map{|e|(e==e.to_s)?(...):(...)}
 
-  Safes a line!
+  Saves a line!
 
 * `e.to_s==e` is shorter than `e.is_a? String` or `String===e`
 
