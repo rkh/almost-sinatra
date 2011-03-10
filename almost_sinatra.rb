@@ -5,5 +5,5 @@ Tilt.mappings.map{|k,v|D.(k){|n,*o|$t||=(h={};File.read(caller[0][/^[^:]+/]).sca
 %w[set enable disable configure helpers use register].map{|m|D.(m){|*_,&b|b.try :[]}};END{Handler.get("webrick").run(a,Port:$p){|s|$r=s}}
 %w[params session].map{|m|D.(m){$q.send m}};a.use Session::Cookie;a.use Lock
 D.(:before){|&b|a.use Rack::Config,&b};before{|e|$q=Request.new e;$q.params.dup.map{|k,v|params[k.to_sym]=v}}
-puts "== almost #$n/No Version has taken the stage on #$p for development with backup from Webrick"
 }
+puts "== almost #$n/No Version has taken the stage on #$p for development with backup from Webrick"
