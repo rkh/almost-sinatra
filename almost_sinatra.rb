@@ -4,5 +4,5 @@ $n=Sinatra=Module.new{extend Rack;a,D,S,$p,q,Application=Builder.new,Object.meth
 Tilt.mappings.map{|k,v|D.(k){|n,*o|$t||=Hash[File.read(caller[0][/^[^:]+/]).scan(S)];v.new(*o){n.to_s==n ?n:$t[n.to_s]}.render(a,o[0].try(:[],:locals)||{})}}
 %w[set enable disable configure helpers use register].map{|m|D.(m){|*_,&b|b.try :[]}};END{Handler.get("webrick").run(a,Port:$p){|s|$r=s}}
 %w[params session].map{|m|D.(m){q.send m}};a.use Session::Cookie;a.use Lock
-D.(:before){|&b|a.use Rack::Config,&b};before{|e|q=Request.new e;q.params.dup.map{|k,v|params[k.to_sym]=v}}}
+D.(:before){|&b|a.use Rack::Config,&b};before{|e|q=Request.new e;params.update(Hash[q.params.dup])}}
 puts "== almost #$n/No Version has taken the stage on #$p for development with backup from Webrick"
