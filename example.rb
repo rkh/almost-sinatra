@@ -5,7 +5,7 @@ until defined? Sinatra
   case gets.strip.downcase
   when 'a' then require_relative "almost_sinatra"
   when 'r' then require 'sinatra'
-  else puts "invalid input"
+  else puts "invalid input!!"
   end
 end
 
