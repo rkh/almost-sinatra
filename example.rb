@@ -29,8 +29,9 @@ get '/' do
   haml :index
 end
 
+# /hello?name=world
 get '/hello' do
-  erb :hello, :locals => { :name => params[:name] }
+  erb :hello, locals: { name: params[:name] }
 end
 
 get '/counter' do
