@@ -95,7 +95,7 @@ Generated using David A. Wheeler's 'SLOCCount'.
 
   Saves a line!
 
-* `e.to_s==e` is shorter than `e.is_a? String` or `String===e`
+* `e=="#{e}"` is shorter than `e.is_a? String` or `String===e`
 
 * use `->{}` instead of `proc` or `lambda` (this is why it depends on 1.9)
 
