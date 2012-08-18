@@ -23,6 +23,6 @@ e App,before:((b)->@b.push b),helpers:((o)->e @h,o),template:((n,t)->@t[n]=t),ru
 App.handle=(req,res)->
   a=new App(req,res);p=url.parse(req.url).pathname;App.b.map (b)->b.call a
   b=App.r.filter((r)->r[0]==req.method&&r[1]==p)[0]
-  if b then (b[2].call a) else (res.writeHead 400,{};res.end())
+  if b then (b[2].call a) else (res.writeHead 404,{};res.end())
 
 module.exports = App
