@@ -1,4 +1,5 @@
-[M,w,e]=[Math,((s)->s.split(/\s+/)),(d,s)->d[k]=v for k,v of s];[http,url,qs,haml,ejs]=w('http url querystring haml ejs').map require
+[M,e,w,z]=[Math,((d,s)->d[k]=v for k,v of s),((s)->s.split(/\s+/)),(d,s)->(d[k]=if d[k]instanceof Array then d[k].concat v else v) for k,v of s]
+[http,url,qs,haml,ejs]=w('http url querystring haml ejs').map require
 
 class Session
   constructor:(id)->@__id__=id
@@ -10,13 +11,15 @@ Session.get=(r)->
 
 class App
   [@b,@r,@h,@t]=[[],[],{},{}]
-  constructor:(@req, @res)->@_url=url.parse(@req.url,true);@session=Session.get(@req);e @,App.h
+  constructor:(@req,@res,@_h={})->@_u=url.parse(@req.url,true);@session=Session.get(@req);z @_h,'Set-Cookie':['sessid='+@session.__id__];e @,App.h
   parse:(c)->
     if /application\/x-www-form-urlencoded/.test @req.headers['content-type']
       @req.setEncoding('utf8');b='';@req.on('data',(s)->b+=s);@req.on 'end',=>@params=qs.parse b;c()
     else
-      @params=@_url.query;c()
-  render:(s)->h='Content-Type':'text/html','Set-Cookie':'sessid='+@session.__id__;@res.writeHead 200,h;@res.end s
+      @params=@_u.query;c()
+  headers:(o)->z @_h,o
+  status:(n)->@_s=parseInt(n,10)
+  render:(s)->h='Content-Type':'text/html','Content-Length':new Buffer(s,'utf8').length;z h,@_h;@res.writeHead @_s||200,h;@res.end s
   haml:(n)->@render haml(App.t[n])(@)
   ejs:(n,o)->@render ejs.render(App.t[n],o?.locals)
   puts:(s)->console.log s
@@ -28,6 +31,6 @@ e App,before:((b)->@b.push b),helpers:((o)->e @h,o),template:((n,t)->@t[n]=t),ru
 App.handle=(req,res)->
   a=new App(req,res);p=url.parse(req.url).pathname;App.b.map (b)->b.call a
   b=App.r.filter((r)->r[0]==req.method&&r[1]==p)[0]
-  if b then (a.parse ()->b[2].call a) else (res.writeHead 404,{};res.end())
+  if b then (a.parse ()->r=b[2].call a;if typeof r=='string' then a.render r) else (res.writeHead 404,{};res.end())
 
-module.exports = App
+module.exports=App

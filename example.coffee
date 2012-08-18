@@ -20,7 +20,9 @@ app.get '/counter', ->
   @render @session.counter.toString()
 
 app.post '/', ->
-  @render JSON.stringify(@params)
+  @status 201
+  @headers 'Content-Type': 'application/json'
+  JSON.stringify(@params)
 
 app.template 'index', """
 %html
