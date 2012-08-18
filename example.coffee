@@ -19,6 +19,9 @@ app.get '/counter', ->
   @inc_counter()
   @render @session.counter.toString()
 
+app.post '/', ->
+  @render JSON.stringify(@params)
+
 app.template 'index', """
 %html
   %head
