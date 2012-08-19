@@ -1,4 +1,4 @@
-[u,p,M,e,w]=[/\bapplication\/x-www-form-urlencoded\b/,4567,Math,((d,s)->d[k]=(if d[k]instanceof Array then d[k].concat v else v)for k,v of s),(s,c)->s.split(/\s+/).map c]
+[u,p,M,e,w]=[/\bapplication\/x-www-form-urlencoded\b/,4567,Math,((d,s)->d[k]=(if d[k]instanceof Array then d[k].concat v else v)for k,v of s;d),(s,c)->s.split(/\s+/).map c]
 [http,url,qs,haml,ejs]=w 'http url querystring haml ejs',require
 
 class Session
@@ -20,7 +20,7 @@ class App
   status:(n)->@_s=parseInt(n,10)
   render:(s)->h='Content-Type':'text/html','Content-Length':new Buffer(s,'utf8').length;e h,@_h;@res.writeHead @_s||200,h;@res.end s
   haml:(n)->@render haml(App.t[n]) @
-  ejs:(n,o)->@render ejs.render App.t[n],o?.locals
+  ejs:(n,o)->@render ejs.render App.t[n],e o?.locals||{},App.h
   puts:(s)->console.log s
 
 w 'get post put delete patch head options',(v)->App[v]=(p,f)->

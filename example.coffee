@@ -4,6 +4,9 @@ app.helpers
   inc_counter: ->
     @session.counter ||= 0
     @session.counter += 1
+  
+  site_name: ->
+    "Awesome.net"
 
 app.before ->
   @puts "yay! got a request!"
@@ -36,12 +39,13 @@ app.template 'index', """
   %head
     %title= title
   %body
+    %p= site_name()
     %a{href: '/hello?name=World'} Say hello!
     %a{href: '/counter'} Show Counter
 """
 
 app.template 'hello', """
-Hello <%= name %>!
+Hello <%= name %>, welcome to <%= site_name() %>!
 """
 
 app.run()
