@@ -1,5 +1,5 @@
-[M,e,w,z]=[Math,((d,s)->d[k]=v for k,v of s),((s)->s.split(/\s+/)),(d,s)->(d[k]=if d[k]instanceof Array then d[k].concat v else v) for k,v of s]
-[http,url,qs,haml,ejs]=w('http url querystring haml ejs').map require
+[M,e,w,z]=[Math,((d,s)->d[k]=v for k,v of s),((s,c)->s.split(/\s+/).map c),(d,s)->(d[k]=if d[k]instanceof Array then d[k].concat v else v) for k,v of s]
+[http,url,qs,haml,ejs]=w 'http url querystring haml ejs',require
 
 class Session
   constructor:(id)->@__id__=id
@@ -24,7 +24,7 @@ class App
   ejs:(n,o)->@render ejs.render(App.t[n],o?.locals)
   puts:(s)->console.log s
 
-w('get post put delete patch').map (v)->App[v]=(p,f)->App.r.push [v.toUpperCase(),p,f]
+w 'get post put delete patch',(v)->App[v]=(p,f)->App.r.push [v.toUpperCase(),p,f]
 
 e App,before:((b)->@b.push b),helpers:((o)->e @h,o),template:((n,t)->@t[n]=t),run:->http.createServer(@handle).listen(4567)
 
