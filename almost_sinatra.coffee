@@ -13,7 +13,7 @@ class App
   [@b,@r,@h,@t]=[[],[],{},{}]
   constructor:(@req,@res,@_m)->
     @_u=url.parse(@req.url,true);@session=Session.get(@req);@_h='Set-Cookie':['sessid='+@session.__id__+'; Path=/; HttpOnly'];e @,App.h
-    @_b=App.r.filter((r)=>r[0]==@_m&&r[2].test @_u.pathname)[0];if @_b then([@params,d]=[{},@_u.pathname.match @_b[2]];@params[k]=decodeURIComponent d[i+1]for k,i in @_b[1])
+    @_b=App.r.filter((r)=>r[0]==@_m&&r[2].test @_u.pathname)[0];if @_b then([@params,d]=[{},@_u.pathname.match @_b[2]];@params[k]=decodeURIComponent d[i+1]for k,i in @_b[1]);e @params,@_u.query
   parse:(c)->
     @req.setEncoding('utf8');b='';@req.on('data',(s)->b+=s);@req.on 'end',=>
       e @params,(if u.test @req.headers['content-type']then qs.parse b else @_u.query);c.call @
