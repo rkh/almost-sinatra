@@ -1,5 +1,5 @@
 {
   "name": "almost_sinatra",
   "version": "1.0.0",
-  "dependencies": {"coffee-script":"", "haml":"", "ejs":""}
+  "dependencies": {"coffee-script":"", "faye-websocket":"", "haml":"", "ejs":""}
 }
