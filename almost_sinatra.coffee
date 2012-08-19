@@ -13,11 +13,11 @@ class App
   [@b,@r,@h,@t]=[[],[],{},{}]
   constructor:(@req,@res,@_m)->
     @_u=url.parse(@req.url,true);@session=Session.get(@req);@_h='Set-Cookie':['sessid='+@session.__id__+'; Path=/; HttpOnly'];e @,App.h;@_b=App.r.filter((r)=>r[0]==@_m&&r[2].test @_u.pathname)[0]
-    if @_b then([@params,@_a,d]=[{splat:[]},[],@_u.pathname.match @_b[2]];(v=decodeURIComponent d[i+1];@_a.push v;if k=='*' then @params.splat.push v else @params[k]=v)for k,i in @_b[1]);e @params,@_u.query
+    if @_b then[@params,@_a,d]=[{splat:[]},[],@_u.pathname.match @_b[2]];(v=decodeURIComponent d[i+1];@_a.push v;if k=='*' then @params.splat.push v else @params[k]=v)for k,i in @_b[1];e @params,@_u.query
   parse:(c)->
     @req.setEncoding('utf8');b='';@req.on('data',(s)->b+=s);@req.on 'end',=>
       e @params,(if u.test @req.headers['content-type']then qs.parse b else @_u.query);c.call @
-  _x:(c)->if @_b then c.call @,(=>@_b[3].apply @,@_a) else(@res.writeHead 404,{};@res.end())
+  _x:(c)->if @_b then c.call @,(=>@_b[3].apply @,@_a)else @res.writeHead 404,{};@res.end()
   headers:(o)->e @_h,o
   status:(n)->@_s=parseInt n,10
   render:(s)->h='Content-Type':'text/html','Content-Length':new Buffer(s,'utf8').length;e h,@_h;@res.writeHead @_s||200,h;@res.end s
