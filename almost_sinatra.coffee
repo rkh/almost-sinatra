@@ -28,7 +28,7 @@ w 'get post put delete patch head options',(v)->App[v]=(p,f)->
   x=new RegExp('^'+p.replace(/([\/\.])/g,'\\$1').replace(/:[a-z\_\$][a-z0-9\_\$]*/ig,'([^\\/]+?)')+'$')
   @r.push [v.toUpperCase(),o,x,f]
 
-e App,before:((b)->@b.push b),helpers:((o)->e @h,o),template:((n,t)->@t[n]=t),run:->http.createServer(@handle).listen p
+e App,before:((b)->@b.push b),helpers:((o)->e @h,o),template:((n,t)->@t[n]=t),run:(_p)->http.createServer(@handle).listen _p||p
 
 App.handle=(req,res)->
   a=new App(req,res);App.b.map((b)->b.call a);b=App.r.filter((r)->r[0]==req.method&&r[2].test a._u.pathname)[0]

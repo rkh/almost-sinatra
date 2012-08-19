@@ -48,4 +48,4 @@ app.template 'hello', """
 Hello <%= name %>, welcome to <%= site_name() %>!
 """
 
-app.run()
+app.run 4567
