@@ -1,4 +1,4 @@
-[u,p,M,e,w]=[/\bapplication\/x-www-form-urlencoded\b/,4567,Math,((d,s)->(d[k]=if d[k]instanceof Array then d[k].concat v else v) for k,v of s),(s,c)->s.split(/\s+/).map c]
+[u,p,M,e,w]=[/\bapplication\/x-www-form-urlencoded\b/,4567,Math,((d,s)->d[k]=(if d[k]instanceof Array then d[k].concat v else v)for k,v of s),(s,c)->s.split(/\s+/).map c]
 [http,url,qs,haml,ejs]=w 'http url querystring haml ejs',require
 
 class Session
