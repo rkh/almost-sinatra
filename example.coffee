@@ -15,6 +15,9 @@ app.get '/', ->
 app.get '/hello', ->
   @ejs 'hello', locals: {name: @params.name}
 
+app.get '/words/:category/:id.:format', ->
+  JSON.stringify @params
+
 app.get '/counter', ->
   @inc_counter()
   @render @session.counter.toString()
