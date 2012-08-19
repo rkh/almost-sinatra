@@ -42,6 +42,9 @@ So, what can this version do?
     app.get '/confs/:name', ->
       JSON.stringify @params
     
+    app.put '/confs/:name', (name) ->
+      name
+    
     app.get '/download/*.*', ->
       @params.splat.join ', '
     
@@ -60,6 +63,9 @@ This app responds like so:
 
     $ curl 'localhost:4567/confs/eurucamp?bears=awesome'
     {"name":"eurucamp","bears":"awesome"}
+    
+    $ curl -X PUT localhost:4567/confs/jsconf
+    jsconf
     
     $ curl localhost:4567/download/foo.js
     foo, js
@@ -125,15 +131,15 @@ function.
 
 ### WebSockets!
 
-    app.websocket '/ws/:name', (ws) ->
-      ws.onmessage = (e)=>
-        ws.send @params.name + ': ' + e.data
+    app.websocket '/ws/:name', ->
+      @socket.onmessage = (e)=>
+        @socket.send @params.name + ': ' + e.data
 
 
 ### EventSource!
 
-    app.eventsource '/ws/:name', (es) ->
-      setInterval (=> es.send @params.name + ': PUSH!'), 5000
+    app.eventsource '/ws/:name', ->
+      setInterval (=> @socket.send @params.name + ': PUSH!'), 5000
 
 
 ## License

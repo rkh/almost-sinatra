@@ -18,6 +18,9 @@ app.get '/', ->
 app.get '/download/*.*', ->
   @params.splat.join ', '
 
+app.put '/download/*.*', (path, ext) ->
+  [path, ext].join ' // '
+
 app.get '/js/socket.js', ->
   @headers 'Content-Type': 'text/javascript'
   @ejs 'socket'
@@ -41,12 +44,12 @@ app.options '/', ->
   @headers 'Access-Control-Allow-Methods': 'GET, PUT, DELETE'
   @render ''
 
-app.websocket '/ws/:name', (ws) ->
-  ws.onmessage = (e)=>
-    ws.send @params.name + ': ' + e.data
+app.websocket '/ws/:name', ->
+  @socket.onmessage = (e)=>
+    @socket.send @params.name + ': ' + e.data
 
-app.eventsource '/ws/:name', (es) ->
-  setInterval (=> es.send @params.name + ': PUSH!'), 5000
+app.eventsource '/ws/:name', ->
+  setInterval (=> @socket.send @params.name + ': PUSH!'), 5000
 
 app.template 'index', """
 %html
