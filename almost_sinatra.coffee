@@ -31,8 +31,7 @@ w 'get post put delete patch head options',(v)->App[v]=(p,f)->
 e App,before:((b)->@b.push b),helpers:((o)->e @h,o),template:((n,t)->@t[n]=t),run:->http.createServer(@handle).listen p
 
 App.handle=(req,res)->
-  a=new App(req,res);p=url.parse(req.url).pathname;App.b.map (b)->b.call a
-  b=App.r.filter((r)->r[0]==req.method&&r[2].test p)[0]
+  a=new App(req,res);App.b.map((b)->b.call a);b=App.r.filter((r)->r[0]==req.method&&r[2].test a._u.pathname)[0]
   if b then(a.parse b,->r=b[3].call a;if typeof r=='string'then a.render r)else(res.writeHead 404,{};res.end())
 
 module.exports=App
