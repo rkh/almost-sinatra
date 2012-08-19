@@ -43,7 +43,7 @@ So, what can this version do?
     
     app.post '/confs', ->
       @status 201
-      @headers 'Content-Type: application/json'
+      @headers 'Content-Type': 'application/json'
       JSON.stringify @params
     
     app.options '/', ->
