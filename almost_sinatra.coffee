@@ -12,8 +12,8 @@ Session.get=(r)->
 class App
   [@b,@r,@h,@t]=[[],[],{},{}]
   constructor:(@req,@res,@_m)->
-    @_u=url.parse(@req.url,true);@session=Session.get(@req);@_h='Set-Cookie':['sessid='+@session.__id__+'; Path=/; HttpOnly'];e @,App.h
-    @_b=App.r.filter((r)=>r[0]==@_m&&r[2].test @_u.pathname)[0];if @_b then([@params,d]=[{},@_u.pathname.match @_b[2]];@params[k]=decodeURIComponent d[i+1]for k,i in @_b[1]);e @params,@_u.query
+    @_u=url.parse(@req.url,true);@session=Session.get(@req);@_h='Set-Cookie':['sessid='+@session.__id__+'; Path=/; HttpOnly'];e @,App.h;@_b=App.r.filter((r)=>r[0]==@_m&&r[2].test @_u.pathname)[0]
+    if @_b then([@params,d]=[{splat:[]},@_u.pathname.match @_b[2]];(v=decodeURIComponent d[i+1];if k=='*' then @params.splat.push v else @params[k]=v)for k,i in @_b[1]);e @params,@_u.query
   parse:(c)->
     @req.setEncoding('utf8');b='';@req.on('data',(s)->b+=s);@req.on 'end',=>
       e @params,(if u.test @req.headers['content-type']then qs.parse b else @_u.query);c.call @
@@ -26,8 +26,8 @@ class App
   puts:(s)->console.log s
 
 w 'get post put delete patch head options websocket eventsource',(v)->App[v]=(p,f)->
-  o=(p.match(/[\/\.]:[a-z\_\$][a-z0-9\_\$]*/g)||[]).map (s)->s.substr 2
-  m=new RegExp('^'+p.replace(/([\/\.])/g,'\\$1').replace(/:[a-z\_\$][a-z0-9\_\$]*/ig,'([^\\/]+?)')+'$')
+  o=(p.match(/[\/\.](\*|:[a-z\_\$][a-z0-9\_\$]*)/g)||[]).map (s)->s.replace /^[^a-z0-9\_\$\*]*/, ''
+  m=new RegExp('^'+p.replace(/([\/\.])/g,'\\$1').replace(/\*|:[a-z\_\$][a-z0-9\_\$]*/ig,'(.+?)')+'$')
   @r.push [v.toUpperCase(),o,m,f]
 
 e App,before:((b)->@b.push b),helpers:((o)->e @h,o),template:((n,t)->@t[n]=t),run:(q)->http.createServer(@call).on('upgrade',@ws).listen q||p

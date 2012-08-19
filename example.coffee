@@ -15,6 +15,9 @@ app.get '/', ->
   @title = 'Almost Sinatra'
   @haml 'index'
 
+app.get '/download/*.*', ->
+  @params.splat.join ', '
+
 app.get '/js/socket.js', ->
   @headers 'Content-Type': 'text/javascript'
   @ejs 'socket'

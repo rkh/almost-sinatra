@@ -11,6 +11,7 @@ So, what can this version do?
 * Route requests based on method and pathname
 * Respond to `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `HEAD`, `OPTIONS`
 * Handle WebSocket and EventSource connections
+* Path-based pattern matching with `:named` and `*` matchers
 * Construct params from path data, query strings and entity bodies
 * Has in-memory session support
 * Set status code and headers
@@ -41,6 +42,9 @@ So, what can this version do?
     app.get '/confs/:name', ->
       JSON.stringify @params
     
+    app.get '/download/*.*', ->
+      @params.splat.join ', '
+    
     app.post '/confs', ->
       @status 201
       @headers 'Content-Type': 'application/json'
@@ -56,6 +60,9 @@ This app responds like so:
 
     $ curl 'localhost:4567/confs/eurucamp?bears=awesome'
     {"name":"eurucamp","bears":"awesome"}
+    
+    $ curl localhost:4567/download/foo.js
+    foo, js
     
     $ curl -iX POST localhost:4567/confs -d 'horses=fake'
     HTTP/1.1 201 Created
