@@ -1,4 +1,4 @@
-[M,e,w,z]=[Math,((d,s)->d[k]=v for k,v of s),((s,c)->s.split(/\s+/).map c),(d,s)->(d[k]=if d[k]instanceof Array then d[k].concat v else v) for k,v of s]
+[u,M,e,w,z]=[/\bapplication\/x-www-form-urlencoded\b/,Math,((d,s)->d[k]=v for k,v of s),((s,c)->s.split(/\s+/).map c),(d,s)->(d[k]=if d[k]instanceof Array then d[k].concat v else v) for k,v of s]
 [http,url,qs,haml,ejs]=w 'http url querystring haml ejs',require
 
 class Session
@@ -13,10 +13,8 @@ class App
   [@b,@r,@h,@t]=[[],[],{},{}]
   constructor:(@req,@res,@_h={})->@_u=url.parse(@req.url,true);@session=Session.get(@req);z @_h,'Set-Cookie':['sessid='+@session.__id__+'; Path=/; HttpOnly'];e @,App.h
   parse:(c)->
-    if /application\/x-www-form-urlencoded/.test @req.headers['content-type']
-      @req.setEncoding('utf8');b='';@req.on('data',(s)->b+=s);@req.on 'end',=>@params=qs.parse b;c()
-    else
-      @params=@_u.query;c()
+    @req.setEncoding('utf8');b='';@req.on('data',(s)->b+=s);@req.on 'end',=>
+      @body=b;@params=(if u.test @req.headers['content-type']then qs.parse b else @_u.query);c()
   headers:(o)->z @_h,o
   status:(n)->@_s=parseInt(n,10)
   render:(s)->h='Content-Type':'text/html','Content-Length':new Buffer(s,'utf8').length;z h,@_h;@res.writeHead @_s||200,h;@res.end s
@@ -24,7 +22,7 @@ class App
   ejs:(n,o)->@render ejs.render(App.t[n],o?.locals)
   puts:(s)->console.log s
 
-w 'get post put delete patch head options',(v)->App[v]=(p,f)->App.r.push [v.toUpperCase(),p,f]
+w 'get post put delete patch head options',(v)->App[v]=(p,f)->@r.push [v.toUpperCase(),p,f]
 
 e App,before:((b)->@b.push b),helpers:((o)->e @h,o),template:((n,t)->@t[n]=t),run:->http.createServer(@handle).listen(4567)
 
