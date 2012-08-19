@@ -42,6 +42,9 @@ app.websocket '/ws/:name', (ws) ->
   ws.onmessage = (e)=>
     ws.send @params.name + ': ' + e.data
 
+app.eventsource '/ws/:name', (es) ->
+  setInterval (=> es.send @params.name + ': PUSH!'), 5000
+
 app.template 'index', """
 %html
   %head
@@ -55,15 +58,24 @@ app.template 'index', """
 """
 
 app.template 'socket', """
-var ws = new WebSocket('ws://localhost:4567/ws/awesome');
-ws.onmessage = function(e) {
+var write = function(data) {
   var log = document.getElementById('log'),
       li  = document.createElement('li');
-  li.innerHTML = e.data;
+  li.innerHTML = data;
   log.appendChild(li);
+};
+
+var ws = new WebSocket('ws://localhost:4567/ws/awesome');
+ws.onmessage = function(e) {
+  write(e.data);
   setTimeout(function() { ws.send('Loop') }, 2000)
 };
 ws.onopen = function() { ws.send('Ping!') };
+
+var es = new EventSource('http://localhost:4567/ws/awesome');
+es.onmessage = function(e) {
+  write(e.data);
+};
 """
 
 app.template 'hello', """

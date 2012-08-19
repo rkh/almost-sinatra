@@ -10,7 +10,7 @@ So, what can this version do?
 
 * Route requests based on method and pathname
 * Respond to `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `HEAD`, `OPTIONS`
-* Handle WebSocket connections
+* Handle WebSocket and EventSource connections
 * Construct params from path data, query strings and entity bodies
 * Has in-memory session support
 * Set status code and headers
@@ -121,6 +121,12 @@ function.
     app.websocket '/ws/:name', (ws) ->
       ws.onmessage = (e)=>
         ws.send @params.name + ': ' + e.data
+
+
+### EventSource!
+
+    app.eventsource '/ws/:name', (es) ->
+      setInterval (=> es.send @params.name + ': PUSH!'), 5000
 
 
 ## License
