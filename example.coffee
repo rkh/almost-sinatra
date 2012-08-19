@@ -24,6 +24,10 @@ app.post '/', ->
   @headers 'Content-Type': 'application/json'
   JSON.stringify(@params)
 
+app.options '/', ->
+  @headers 'Access-Control-Allow-Methods': 'GET, PUT, DELETE'
+  @render ''
+
 app.template 'index', """
 %html
   %head

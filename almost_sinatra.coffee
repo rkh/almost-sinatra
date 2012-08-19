@@ -24,7 +24,7 @@ class App
   ejs:(n,o)->@render ejs.render(App.t[n],o?.locals)
   puts:(s)->console.log s
 
-w 'get post put delete patch',(v)->App[v]=(p,f)->App.r.push [v.toUpperCase(),p,f]
+w 'get post put delete patch head options',(v)->App[v]=(p,f)->App.r.push [v.toUpperCase(),p,f]
 
 e App,before:((b)->@b.push b),helpers:((o)->e @h,o),template:((n,t)->@t[n]=t),run:->http.createServer(@handle).listen(4567)
 
