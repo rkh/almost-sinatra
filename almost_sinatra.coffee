@@ -7,11 +7,11 @@ class Session
 
 Session.get=(r)->
   [h,c]=[{},(r.headers.cookie||'').split(/\s*;\s*/)];c.map (p)->q=p.split('=');h[q[0]]=q[1]
-  i=h.sessid||M.floor(M.random()*M.pow(2,52)).toString 36;@s[i]||=new @(i)
+  i=h.sessid||[1..4].map(->M.floor(M.random()*M.pow(2,40)).toString 36).join '';@s[i]||=new @(i)
 
 class App
   [@b,@r,@h,@t]=[[],[],{},{}]
-  constructor:(@req,@res,@_h={})->@_u=url.parse(@req.url,true);@session=Session.get(@req);z @_h,'Set-Cookie':['sessid='+@session.__id__];e @,App.h
+  constructor:(@req,@res,@_h={})->@_u=url.parse(@req.url,true);@session=Session.get(@req);z @_h,'Set-Cookie':['sessid='+@session.__id__+'; Path=/; HttpOnly'];e @,App.h
   parse:(c)->
     if /application\/x-www-form-urlencoded/.test @req.headers['content-type']
       @req.setEncoding('utf8');b='';@req.on('data',(s)->b+=s);@req.on 'end',=>@params=qs.parse b;c()
