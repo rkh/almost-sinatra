@@ -6,10 +6,10 @@ app.helpers
     @session.counter += 1
   
   site_name: ->
-    "Awesome.net"
+    'Awesome.net'
 
 app.before ->
-  @puts "yay! got a request!"
+  @puts 'yay! got a request!'
 
 app.get '/', ->
   @title = 'Almost Sinatra'

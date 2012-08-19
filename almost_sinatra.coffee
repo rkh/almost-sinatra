@@ -6,7 +6,7 @@ class Session
   @s={}
 
 Session.get=(r)->
-  [h,c]=[{},(r.headers.cookie||'').split(/\s*;\s*/)];c.map (p)->q=p.split('=');h[q[0]]=q[1]
+  [h,c]=[{},(r.headers.cookie||'').split /\s*;\s*/];c.map (p)->q=p.split '=';h[q[0]]=q[1]
   i=h.sessid||[1..4].map(->M.floor(M.random()*M.pow(2,40)).toString 36).join '';@s[i]||=new @(i)
 
 class App
@@ -17,7 +17,7 @@ class App
       [@params,d]=[{},@_u.pathname.match p[2]];@params[k]=decodeURIComponent d[i+1]for k,i in p[1];@body=b
       e @params,(if u.test @req.headers['content-type']then qs.parse b else @_u.query);c()
   headers:(o)->e @_h,o
-  status:(n)->@_s=parseInt(n,10)
+  status:(n)->@_s=parseInt n,10
   render:(s)->h='Content-Type':'text/html','Content-Length':new Buffer(s,'utf8').length;e h,@_h;@res.writeHead @_s||200,h;@res.end s
   haml:(n)->@render haml(App.t[n]) @
   ejs:(n,o)->@render ejs.render App.t[n],e o?.locals||{},App.h
