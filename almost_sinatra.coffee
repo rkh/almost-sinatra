@@ -1,4 +1,4 @@
-[u,p,x,M,e,w]=[/\bapplication\/x-www-form-urlencoded\b/,4567,((r)->r.writeHead 404,{};r.end()),Math,((d,s)->d[k]=(if d[k]instanceof Array then d[k].concat v else v)for k,v of s;d),(s,c)->s.split(/\s+/).map c]
+[u,p,M,e,w]=[/\bapplication\/x-www-form-urlencoded\b/,4567,Math,((d,s)->d[k]=(if d[k]instanceof Array then d[k].concat v else v)for k,v of s;d),(s,c)->s.split(/\s+/).map c]
 [http,url,qs,WS,haml,ejs]=w 'http url querystring faye-websocket haml ejs',require
 
 class Session
@@ -17,6 +17,7 @@ class App
   parse:(c)->
     @req.setEncoding('utf8');b='';@req.on('data',(s)->b+=s);@req.on 'end',=>
       e @params,(if u.test @req.headers['content-type']then qs.parse b else @_u.query);c.call @
+  _x:(c)->if @_b then c.call @,((a)=>@_b[3].call @,a) else(@res.writeHead 404,{};@res.end())
   headers:(o)->e @_h,o
   status:(n)->@_s=parseInt n,10
   render:(s)->h='Content-Type':'text/html','Content-Length':new Buffer(s,'utf8').length;e h,@_h;@res.writeHead @_s||200,h;@res.end s
@@ -34,12 +35,12 @@ e App,before:((b)->@b.push b),helpers:((o)->e @h,o),template:((n,t)->@t[n]=t),ru
 App.call=(req,res)->
   ES=WS.EventSource;k=ES.isEventSource req;a=new App(req,res,if k then 'EVENTSOURCE' else req.method);App.b.map((b)->b.call a)
   if k
-    if a._b then(s=new ES req,res;a._b[3].call a,s;s.addEventListener 'close',->s=null)else x res
+    a._x (h)->s=new ES req,res;h s;s.addEventListener 'close',->s=null
   else
-    if a._b then(a.parse ->r=@_b[3].call @;if typeof r=='string'then @render r)else x res
+    a._x (h)->a.parse ->r=h();if typeof r=='string'then @render r
 
 App.ws=(r,s,h)->
-  a=new App(r,s,'WEBSOCKET');if a._b then(w=new WS r,s,h;a._b[3].call a,w;w.addEventListener 'close',->w=null)else x r
+  a=new App(r,s,'WEBSOCKET');a._x (H)->w=new WS r,s,h;H w;w.addEventListener 'close',->w=null
 
 module.exports=App
 

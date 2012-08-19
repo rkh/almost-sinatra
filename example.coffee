@@ -32,7 +32,7 @@ app.get '/counter', ->
 app.post '/', ->
   @status 201
   @headers 'Content-Type': 'application/json'
-  JSON.stringify(@params)
+  JSON.stringify @params
 
 app.options '/', ->
   @headers 'Access-Control-Allow-Methods': 'GET, PUT, DELETE'
@@ -72,7 +72,7 @@ ws.onmessage = function(e) {
 };
 ws.onopen = function() { ws.send('Ping!') };
 
-var es = new EventSource('http://localhost:4567/ws/awesome');
+var es = new EventSource('http://localhost:4567/ws/eurucamp');
 es.onmessage = function(e) {
   write(e.data);
 };
