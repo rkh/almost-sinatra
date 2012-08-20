@@ -166,18 +166,13 @@ Hello <%= name %>, welcome to <%= site_name() %>!
 ```
 
 
-### WebSockets!
+### Sockets!
 
 ```coffee
 app.websocket '/ws/:name', ->
   @socket.onmessage = (e)=>
     @socket.send @params.name + ': ' + e.data
-```
 
-
-### EventSource!
-
-```coffee
 app.eventsource '/ws/:name', ->
   setInterval (=> @socket.send @params.name + ': PUSH!'), 5000
 ```
