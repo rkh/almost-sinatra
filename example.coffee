@@ -10,8 +10,9 @@ app.helpers
   site_name: ->
     'Awesome.net'
 
-app.before ->
+app.before (next) ->
   @puts 'yay! got a request!'
+  next()
 
 app.get '/', ->
   @title = 'Almost Sinatra'
