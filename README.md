@@ -13,7 +13,7 @@ So, what can this version do?
 * Handle WebSocket and EventSource connections
 * Path-based pattern matching with `:named` and `*` matchers
 * Construct params from path data, query strings and entity bodies
-* Has in-memory session support
+* Self-contained encrypted session cookies
 * Set status code and headers
 * Render EJS, HAML and raw text
 * Define helper functions for request handlers and templates
