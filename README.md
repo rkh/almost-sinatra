@@ -127,6 +127,7 @@ app.get '/', ->
 
 app.get '/welcome', ->
   @render @cookies.my_cookie
+```
 
 
 ### Helpers, EJS and HAML
