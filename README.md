@@ -17,6 +17,7 @@ So, what can this version do?
 * Self-contained encrypted session cookies
 * Set status code and headers
 * Render EJS, HAML and raw text
+* Serve static files
 * Define helper functions for request handlers and templates
 
 
@@ -40,6 +41,13 @@ app.get '/', -> 'Hello, world!'
 
 app.run 4567
 ```
+
+
+### Settings
+
+    app.public = __dirname + '/public' # where to find static files
+    app.views  = __dirname + '/views'  # where to find view templates
+    app.session_secret = 'abcde12345'  # key for encrypting sessions
 
 
 ### Handling HTTP methods, statuses, headers, etc.
@@ -124,15 +132,18 @@ app.get '/welcome', ->
 ### Helpers, EJS and HAML
 
 ```coffee
+app.views = __dirname + '/views'
+
 app.helpers
   site_name: -> 'Awesome.net'
 
-app.template 'hello', """
-Hello <%= name %>, welcome to <%= site_name() %>!
-"""
-
 app.get '/hello', ->
   @ejs 'hello', locals: {name: @params.name}
+```
+
+```erb
+# views/hello.ejs
+Hello <%= name %>, welcome to <%= site_name() %>!
 ```
 
 You can use `@ejs` or `@haml` to render a template. `@render` just takes a
@@ -143,6 +154,14 @@ function.
 ```bash
 $ curl 'localhost:4567/hello?name=_why'
 Hello _why, welcome to Awesome.net!
+```
+
+You can also register templates in the app code itself:
+
+```coffee
+app.template 'hello.ejs', """
+Hello <%= name %>, welcome to <%= site_name() %>!
+"""
 ```
 
 
