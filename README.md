@@ -81,7 +81,7 @@ $ curl -iX POST localhost:4567/confs -d 'horses=fake'
 HTTP/1.1 201 Created
 Content-Type: application/json
 Content-Length: 17
-Set-Cookie: sessid=cb3npo8wcb66t62o88nps16onxl2g3k; Path=/; HttpOnly
+Set-Cookie: session=XABfKjq2xvCavSitaxu0BC9XSl...; Path=/; HttpOnly
 Date: Sun, 19 Aug 2012 09:13:00 GMT
 Connection: keep-alive
 
@@ -91,7 +91,7 @@ $ curl -iX OPTIONS localhost:4567/
 HTTP/1.1 200 OK
 Content-Type: text/html
 Content-Length: 0
-Set-Cookie: sessid=6xbt2xogcbo6f5z48h153k74dvy4j01s; Path=/; HttpOnly
+Set-Cookie: session=h7HwIkvXA0xcZk7JhmoVK25qNH...; Path=/; HttpOnly
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Methods: GET, PUT, DELETE
 Date: Sun, 19 Aug 2012 09:13:42 GMT
@@ -106,17 +106,6 @@ app.get '/counter', ->
   @session.counter ||= 0
   @session.counter += 1
   @render @session.counter.toString()
-```
-
-Try it out:
-
-```bash
-$ curl localhost:4567/counter -H 'Cookie: sessid=6xbt2xogcbo6f5z48h153k74dvy4j01s'
-1
-$ curl localhost:4567/counter -H 'Cookie: sessid=6xbt2xogcbo6f5z48h153k74dvy4j01s'
-2
-$ curl localhost:4567/counter -H 'Cookie: sessid=6xbt2xogcbo6f5z48h153k74dvy4j01s'
-3
 ```
 
 

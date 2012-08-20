@@ -1,5 +1,7 @@
 app = require './almost_sinatra'
 
+app.session_secret = 'abc123'
+
 app.helpers
   inc_counter: ->
     @session.counter ||= 0
@@ -46,8 +48,7 @@ app.options '/', ->
 
 app.websocket '/ws/:name', ->
   @socket.onmessage = (e)=>
-    @inc_counter()
-    @socket.send @params.name + ': ' + e.data + ': ' + @session.counter
+    @socket.send @params.name + ': ' + e.data
 
 app.eventsource '/ws/:name', ->
   setInterval (=> @socket.send @params.name + ': PUSH!'), 5000
