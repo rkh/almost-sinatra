@@ -13,6 +13,7 @@ So, what can this version do?
 * Handle WebSocket and EventSource connections
 * Path-based pattern matching with `:named` and `*` matchers
 * Construct params from path data, query strings and entity bodies
+* Read and create cookies
 * Self-contained encrypted session cookies
 * Set status code and headers
 * Render EJS, HAML and raw text
@@ -107,6 +108,17 @@ app.get '/counter', ->
   @session.counter += 1
   @render @session.counter.toString()
 ```
+
+
+### Reading and setting cookies
+
+```coffee
+app.get '/', ->
+  @cookie my_cookie: 'hello'
+  @cookie another_cookie: {value: 'something', path: '/welcome', expires: new Date(2012,11,25), http: true}
+
+app.get '/welcome', ->
+  @render @cookies.my_cookie
 
 
 ### Helpers, EJS and HAML

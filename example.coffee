@@ -15,8 +15,13 @@ app.before (next) ->
   next()
 
 app.get '/', ->
+  @cookie message: {value: 'Sinatra', path: '/hello', http: true}
   @title = 'Almost Sinatra'
   @haml 'index'
+
+app.get '/js/socket.js', ->
+  @headers 'Content-Type': 'text/javascript'
+  @ejs 'socket'
 
 app.get '/download/*.*', ->
   @params.splat.join ', '
@@ -24,19 +29,15 @@ app.get '/download/*.*', ->
 app.put '/download/*.*', (path, ext) ->
   [path, ext].join ' // '
 
-app.get '/js/socket.js', ->
-  @headers 'Content-Type': 'text/javascript'
-  @ejs 'socket'
-
 app.get '/hello', ->
-  @ejs 'hello', locals: {name: @params.name}
+  @ejs 'hello', locals: {name: @params.name, message: @cookies.message}
 
 app.get '/words/:category/:id.:format', ->
   JSON.stringify @params
 
 app.get '/counter', ->
   @inc_counter()
-  @render @session.counter.toString()
+  @render @session.counter
 
 app.post '/', ->
   @status 201
@@ -88,7 +89,7 @@ es.onmessage = function(e) {
 """
 
 app.template 'hello', """
-Hello <%= name %>, welcome to <%= site_name() %>!
+Hello <%= name %>, welcome to <%= site_name() %>! Cookie: <%= message %>
 """
 
 app.run 4567
