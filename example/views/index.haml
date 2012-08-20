@@ -1,0 +1,9 @@
+%html
+  %head
+    %title= title
+  %body
+    %p= site_name()
+    %a{href: '/hello?name=World'} Say hello!
+    %a{href: '/counter'} Show Counter
+    %ul{id: 'log'}
+    %script{src: '/socket.js'}
