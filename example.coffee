@@ -46,7 +46,8 @@ app.options '/', ->
 
 app.websocket '/ws/:name', ->
   @socket.onmessage = (e)=>
-    @socket.send @params.name + ': ' + e.data
+    @inc_counter()
+    @socket.send @params.name + ': ' + e.data + ': ' + @session.counter
 
 app.eventsource '/ws/:name', ->
   setInterval (=> @socket.send @params.name + ': PUSH!'), 5000
