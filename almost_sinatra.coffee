@@ -13,7 +13,7 @@ class A
 e A.prototype,headers:((o)->e @_h,o),status:((n)->@_s=parseInt n,10),haml:((n)->@render haml(A.t[n]) @),ejs:((n,o)->@render ejs.render A.t[n],e o?.locals||{},A.h),puts:(s)->console.log s
 
 w 'get post put delete patch head options websocket eventsource',(v)->A[v]=(p,f)->
-  o=(p.match(/[\/\.](\*|:[a-z\_\$][a-z0-9\_\$]*)/g)||[]).map((s)->s.replace /^[^a-z0-9\_\$\*]*/, '');m=new RegExp('^'+p.replace(/([\/\.])/g,'\\$1').replace(/\*|:[a-z\_\$][a-z0-9\_\$]*/ig,'(.+?)')+'$');@r.push [v.toUpperCase(),o,m,f]
+  o=(p.match(/[\/\.](\*|:[a-z\_\$][a-z0-9\_\$]*)/g)||[]).map((s)->s.replace /^[^a-z0-9\_\$\*]*/,'');m=new RegExp('^'+p.replace(/([\/\.])/g,'\\$1').replace(/\*|:[a-z\_\$][a-z0-9\_\$]*/ig,'(.+?)')+'$');@r.push [v.toUpperCase(),o,m,f]
 
 e A,before:((b)->@b.push b),helpers:((o)->e @h,o),template:((n,t)->@t[n]=t),run:(q)->http.createServer(@call).on('upgrade',@ws).listen q||p
 
