@@ -11,7 +11,7 @@ app.helpers
     'Awesome.net'
 
 app.before (next) ->
-  @puts 'yay! got a request!'
+  @puts @request.method + ' ' + @request.url
   next()
 
 app.get '/', ->

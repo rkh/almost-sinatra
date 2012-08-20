@@ -4,8 +4,8 @@ class A
   [@b,@r,@h,@t]=[[],[],{},{}]
   constructor:(@request,@response,@_m)->
     [h,c]=[{},(@request.headers.cookie||'').split /\s*;\s*/];c.map((p)->q=p.split '=';h[q[0]]=q[1]);new E(A.session_secret).decrypt h.session||'',(x,j)=>
-      delete h.session;@cookies=h;@session=(if x then{}else J.parse(j));@_u=url.parse(@request.url,true);@_h='Set-Cookie':[];e @,A.h;@_b=A.r.filter((r)=>r[0]==@_m&&r[2].test @_u.pathname)[0]
-      if @_b then[@params,@_a,d]=[{splat:[]},[],@_u.pathname.match @_b[2]];(v=decodeURIComponent d[i+1];@_a.push v;if k=='*' then @params.splat.push v else @params[k]=v)for k,i in @_b[1];e @params,(if u.test @request.headers['content-type']then qs.parse @request.body else @_u.query);@_c()
+      delete h.session;@params={splat:[]};@cookies=h;@session=(if x then{}else J.parse(j));@_u=url.parse(@request.url,true);@_h='Set-Cookie':[];e @,A.h;@_b=A.r.filter((r)=>r[0]==@_m&&r[2].test @_u.pathname)[0]
+      @_c if @_b then[@_a,d]=[[],@_u.pathname.match @_b[2]];(v=decodeURIComponent d[i+1];@_a.push v;if k=='*' then @params.splat.push v else @params[k]=v)for k,i in @_b[1];e @params,(if u.test @request.headers['content-type']then qs.parse @request.body else @_u.query)
   _x:(c)->@_c= =>async.series A.b.map((f)=> =>f.apply @,arguments).concat =>if @_b then c.call @,(=>@_b[3].apply @,@_a)else @response.writeHead 404,{};@response.end()
   render:(s)->s=String s;h=new E(A.session_secret).encrypt J.stringify(@session),(x,j)=>h='Set-Cookie':['session=' + j + '; Path=/; HttpOnly'],'Content-Type':'text/html','Content-Length':new Buffer(s,'utf8').length;e h,@_h;@response.writeHead @_s||200,h;@response.end s
   cookie:(c)->(v=if typeof v=='string'then value:v else v;s=k+'='+v.value+'; Path='+v.path||'/';s+='; Domain='+v.domain if v.domain;s+='; Expires='+v.expires.toGMTString() if v.expires;s+='; HttpOnly' if v.http;s+='; Secure' if v.secure;e @_h,'Set-Cookie':s)for k,v of c 
