@@ -166,6 +166,34 @@ Hello <%= name %>, welcome to <%= site_name() %>!
 ```
 
 
+### Context groups
+
+You can set up a set of routes with a common prefix and add before-filters that
+only apply to that context.
+
+```coffee
+app.get '/', -> 'Hello!'
+
+app.context '/auth', (auth) ->
+  auth.before (next) ->
+    if @request.headers.authorization
+      next()
+    else
+      @status 401
+      @render 'Authorization required'
+  
+  auth.get '/', -> 'Secret'
+```
+
+```bash
+$ curl localhost:4567/
+Hello!
+$ curl localhost:4567/auth
+Authorization required
+$ curl localhost:4567/auth -H 'Authorization: foo'
+Secret
+```
+
 ### Sockets!
 
 ```coffee

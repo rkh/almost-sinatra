@@ -28,6 +28,21 @@ app.get '/counter', ->
   @inc_counter()
   @render @session.counter
 
+app.context '/auth', (auth) ->
+  auth.before (next) ->
+    if @request.headers.authorization
+      next()
+    else
+      @status 401
+      @render 'Authorization required'
+  
+  auth.get '/', ->
+    'Secret stuff'
+  
+  auth.delete 'info', ->
+    @status 418
+    'I am a teapot'
+
 app.get '/words/:category/:id.:format', ->
   JSON.stringify @params
 
