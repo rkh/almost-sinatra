@@ -21,7 +21,7 @@ app.get '/', ->
   @title = 'Almost Sinatra'
   @haml 'index'
 
-app.get '/hello', ->
+app.get 'hello', ->
   @ejs 'hello', locals: {name: @params.name, message: @cookies.message}
 
 app.get '/counter', ->
