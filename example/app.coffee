@@ -57,6 +57,9 @@ app.post '/', ->
   @headers 'Content-Type': 'application/json'
   JSON.stringify @params
 
+app.get '/legacy', ->
+  @redirect '/hello'
+
 app.options '/', ->
   @headers 'Access-Control-Allow-Methods': 'GET, PUT, DELETE'
   @render ''

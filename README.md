@@ -16,6 +16,7 @@ So, what can this version do?
 * Read and create cookies
 * Self-contained encrypted session cookies
 * Set status code and headers
+* Perform redirects
 * Render EJS, HAML and raw text
 * Serve static files
 * Define helper functions for request handlers and templates
@@ -67,6 +68,9 @@ app.post '/confs', ->
   @headers 'Content-Type': 'application/json'
   JSON.stringify @params
 
+app.get '/legacy', ->
+  @redirect '/hello'
+
 app.options '/', ->
   @headers
     'Access-Control-Allow-Origin': '*',
@@ -91,10 +95,15 @@ HTTP/1.1 201 Created
 Content-Type: application/json
 Content-Length: 17
 Set-Cookie: session=XABfKjq2xvCavSitaxu0BC9XSl...; Path=/; HttpOnly
-Date: Sun, 19 Aug 2012 09:13:00 GMT
 Connection: keep-alive
 
 {"horses":"fake"}
+
+$ curl -i localhost:4567/legacy
+HTTP/1.1 303 See Other
+Location: /hello
+Connection: keep-alive
+Transfer-Encoding: chunked
 
 $ curl -iX OPTIONS localhost:4567/
 HTTP/1.1 200 OK
@@ -103,7 +112,6 @@ Content-Length: 0
 Set-Cookie: session=h7HwIkvXA0xcZk7JhmoVK25qNH...; Path=/; HttpOnly
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Methods: GET, PUT, DELETE
-Date: Sun, 19 Aug 2012 09:13:42 GMT
 Connection: keep-alive
 ```
 
