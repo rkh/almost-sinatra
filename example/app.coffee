@@ -21,21 +21,21 @@ app.get '/', ->
   @title = 'Almost Sinatra'
   @haml 'index'
 
+app.get '/hello', ->
+  @ejs 'hello', locals: {name: @params.name, message: @cookies.message}
+
+app.get '/counter', ->
+  @inc_counter()
+  @render @session.counter
+
+app.get '/words/:category/:id.:format', ->
+  JSON.stringify @params
+
 app.get '/download/*.*', ->
   @params.splat.join ', '
 
 app.put '/download/*.*', (path, ext) ->
   [path, ext].join ' // '
-
-app.get '/hello', ->
-  @ejs 'hello', locals: {name: @params.name, message: @cookies.message}
-
-app.get '/words/:category/:id.:format', ->
-  JSON.stringify @params
-
-app.get '/counter', ->
-  @inc_counter()
-  @render @session.counter
 
 app.post '/', ->
   @status 201
