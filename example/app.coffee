@@ -17,11 +17,12 @@ app.before (next) ->
   next()
 
 app.get '/', ->
-  @cookie message: {value: 'Sinatra', path: '/hello', http: true}
+  @cookie message: {value: 'Sinatra; it’s a framework', path: '/hello', http: true}
   @title = 'Almost Sinatra'
   @haml 'index'
 
 app.get 'hello', ->
+  console.log @request.headers.cookie
   @ejs 'hello', locals: {name: @params.name, message: @cookies.message}
 
 app.get '/counter', ->
@@ -72,7 +73,7 @@ app.eventsource '/ws/:name', ->
   setInterval (=> @socket.send @params.name + ': PUSH!'), 5000
 
 app.template 'hello.ejs', """
-Hello <%= name %>, welcome to <%= site_name() %>! Cookie: <%= message %>
+Hello <%= name %>, welcome to <%= site_name() %>! Cookie: “<%= message %>”
 """
 
 app.run 4567
