@@ -1,5 +1,22 @@
-{
-  "name": "almost_sinatra",
-  "version": "1.0.0",
-  "dependencies": {"coffee-script":"", "async":"", "faye-websocket":"", "vault":"", "haml":"", "ejs":"", "mime":""}
+{ "name"            : "berliner"
+, "description"     : "The lightweight web framework"
+, "homepage"        : "http://berliner.jcoglan.com/"
+, "author"          : "James Coglan <jcoglan@gmail.com> (http://jcoglan.com/)"
+, "keywords"        : ["web", "framework", "lightweight"]
+
+, "version"         : "1.0.0"
+, "engines"         : {"node": ">=0.4.0"}
+, "main"            : "./berliner"
+, "dependencies"    : {"coffee-script":"", "async":"", "faye-websocket":"", "vault":"", "haml":"", "ejs":"", "mime":""}
+
+, "licenses"        : [ { "type"  : "MIT"
+                        , "url"   : "http://www.opensource.org/licenses/mit-license.php"
+                        }
+                      ]
+
+, "repositories"    : [ { "type"  : "git"
+                        , "url"   : "git://github.com/jcoglan/berliner.git"
+                        }
+                      ]
 }
+

@@ -1,0 +1,217 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Berliner</title>
+    <link rel="stylesheet" type="text/css" href="./prettify.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu+Mono|Open+Sans:400,800">
+    <script type="text/javascript" src="./prettify.js"></script>
+    <style type="text/css">
+      body { background: #eee; color: #333; font: 18px/1.5 Open Sans, FreeSans, Helvetica, Arial, sans-serif; margin: 0 0 2em; padding: 0; }
+      h1,h2,h3,p,ul,pre { width: 600px; margin: 1em auto; }
+      a { color: #cc0082; text-decoration: none; font-weight: bold; }
+      .sub { background: #fff; margin: 1em 0 0; padding: 1em 0; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+      pre, code { font-size: 0.9em; font-family: Ubuntu Mono, Monaco, Courier New, monospace; }
+    </style>
+  </head>
+  <body onload="prettyPrint()">
+    
+    <h1>Berliner.</h1>
+    <h2>The lightweight web framework</h2>
+    
+    <p>Do you like Sinatra, but find it a little heavy? Bloated with things like
+      simple error handling and CSRF protection; sick of the impedence mismatch
+      of using one language on the server and another on the client; it&rsquo;s
+      not even asynchronous?!</p>
+    
+    <p><b>Berliner</b> is the framework for you! In just 16 lines of delicious
+      CoffeeScript, it gives you all this, using the infinitely scalable horse
+      power of Node.js:</p>
+    
+    <ul>
+      <li>Route requests based on method and pathname</li>
+      <li>Respond to <code>GET</code>, <code>POST</code>, <code>PUT</code>,
+        <code>DELETE</code>, <code>PATCH</code>, <code>HEAD</code>, and
+        <code>OPTIONS</code></li>
+      <li>Handle WebSocket and EventSource connections</li>
+      <li>Path-based pattern matching with <code>:named</code> and
+        <code>*</code> matchers</li>
+      <li>Construct params from path data, query strings and entity bodies</li>
+      <li>Read and create cookies</li>
+      <li>Self-contained encrypted session cookies</li>
+      <li>Set status code and headers</li>
+      <li>Perform redirects</li>
+      <li>Render EJS, HAML and raw text</li>
+      <li>Serve static files</li>
+      <li>Define helper functions for request handlers and templates</li>
+    </ul>
+    
+    <h3>Install it</h3>
+    
+    <div class="sub"><pre class="prettyprint">$ npm install berliner</pre></div>
+    
+    <h3>Hello, world</h3>
+    
+    <div class="sub"><pre class="prettyprint">app = require 'berliner'
+
+app.get '/', -> 'Hello, world!'
+
+app.run 4567</pre></div>
+    
+    <h3>Settings</h3>
+    
+    <div class="sub"><pre class="prettyprint">app.public = __dirname + '/public' # where to find static files
+app.views  = __dirname + '/views'  # where to find view templates
+app.session_secret = 'abcde12345'  # key for encrypting sessions</pre></div>
+    
+    <h3>Handling HTTP methods, statuses, headers, etc.</h3>
+    
+    <div class="sub"><pre class="prettyprint">app.get '/confs/:name', ->
+  JSON.stringify @params
+
+app.put '/confs/:name', (name) ->
+  name
+
+app.get '/download/*.*', ->
+  @params.splat.join ', '
+
+app.post '/confs', ->
+  @status 201
+  @headers 'Content-Type': 'application/json'
+  JSON.stringify @params
+
+app.get '/legacy', ->
+  @redirect '/hello'
+
+app.options '/', ->
+  @headers
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, PUT, DELETE'
+  @render ''</pre></div>
+    
+    <p>This app responds like so:</p>
+    
+    <div class="sub"><pre class="prettyprint">$ curl 'localhost:4567/confs/eurucamp?bears=awesome'
+{"name":"eurucamp","bears":"awesome"}
+
+$ curl -X PUT localhost:4567/confs/jsconf
+jsconf
+
+$ curl localhost:4567/download/foo.js
+foo, js
+
+$ curl -iX POST localhost:4567/confs -d 'horses=fake'
+HTTP/1.1 201 Created
+Content-Type: application/json
+Content-Length: 17
+Set-Cookie: session=XABfKjq2xvCavSitaxu0BC9XSl...; Path=/; HttpOnly
+Connection: keep-alive
+
+{"horses":"fake"}
+
+$ curl -i localhost:4567/legacy
+HTTP/1.1 303 See Other
+Location: /hello
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+$ curl -iX OPTIONS localhost:4567/
+HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 0
+Set-Cookie: session=h7HwIkvXA0xcZk7JhmoVK25qNH...; Path=/; HttpOnly
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, PUT, DELETE
+Connection: keep-alive</pre></div>
+        
+    <h3>WebSocket and EventSource</h3>
+    
+    <div class="sub"><pre class="prettyprint">app.websocket '/ws/:name', ->
+  @socket.onmessage = (e)=>
+    @socket.send @params.name + ': ' + e.data
+
+app.eventsource '/ws/:name', ->
+  setInterval (=> @socket.send @params.name + ': PUSH!'), 5000</pre></div>
+    
+    <h3>Sessions</h3>
+    
+    <div class="sub"><pre class="prettyprint">app.get '/counter', ->
+  @session.counter ||= 0
+  @session.counter += 1
+  @render @session.counter.toString()</pre></div>
+    
+    <h3>Cookies</h3>
+    
+    <div class="sub"><pre class="prettyprint">app.get '/', ->
+  @cookie my_cookie: 'hello'
+  @cookie another_cookie: {value: 'something', path: '/welcome', expires: new Date(2012,11,25), http: true}
+
+app.get '/welcome', ->
+  @render @cookies.my_cookie</pre></div>
+    
+    <h3>Helpers, EJS and HAML</h3>
+    
+    <div class="sub"><pre class="prettyprint">app.views = __dirname + '/views'
+
+app.helpers
+  site_name: -> 'Awesome.net'
+
+app.get '/hello', ->
+  @ejs 'hello', locals: {name: @params.name}</pre></div>
+    
+    <div class="sub"><pre class="prettyprint"># views/hello.ejs
+
+Hello <%= name %>, welcome to <%= site_name() %>!</pre></div>
+    
+    <p>You can use <code>@ejs</code> or <code>@haml</code> to render a template.
+      <code>@render</code> just takes a string and writes it to the response
+      body. If your route handler returns a string, that string will be the
+      body. Otherwise, you must call a rendering function.</p>
+    
+    <div class="sub"><pre class="prettyprint">$ curl 'localhost:4567/hello?name=_why'
+Hello _why, welcome to Awesome.net!</pre></div>
+    
+    <p>You can also register templates in the app code itself:</p>
+    
+    <div class="sub"><pre class="prettyprint">app.template 'hello.ejs', """
+Hello <%= name %>, welcome to <%= site_name() %>!
+"""</pre></div>
+    
+    <h3>Context groups</h3>
+    
+    <p>You can set up a set of routes with a common prefix and add
+      before-filters that only apply to that context.</p>
+    
+    <div class="sub"><pre class="prettyprint">app.get '/', -> 'Hello!'
+
+app.context '/auth', (auth) ->
+  auth.before (next) ->
+    if @request.headers.authorization
+      next()
+    else
+      @status 401
+      @render 'Authorization required'
+  
+  auth.get '/', -> 'Secret'</pre></div>
+  
+    <div class="sub"><pre class="prettyprint">$ curl localhost:4567/
+Hello!
+$ curl localhost:4567/auth
+Authorization required
+$ curl localhost:4567/auth -H 'Authorization: foo'
+Secret</pre></div>
+    
+    <h3>Credits</h3>
+    
+    <p>Created by <a href="http://jcoglan.com">James Coglan</a> at <a
+      href="http://2012.eurucamp.org/">Eurucamp 2012</a>, inspired by Konstantin
+      Haase. Released under the MIT license.</p>
+    
+    <p>If you find bugs, you&rsquo;re probably holding it wrong. Since this is
+      such a small module, it&rsquo;s almost certainly bug-free; in fact I
+      didn&rsquo;t bother writing tests because it&rsquo;s obviously correct and
+      test frameworks are ugly and stupid.</p>
+    
+  </body>
+</html>

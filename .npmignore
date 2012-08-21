@@ -1,0 +1,6 @@
+.git
+.gitignore
+.npmignore
+.redcar
+node_modules
+site

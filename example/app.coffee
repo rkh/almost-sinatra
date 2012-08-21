@@ -1,4 +1,4 @@
-app = require '../almost_sinatra'
+app = require '../berliner'
 
 app.public = __dirname + '/public'
 app.views  = __dirname + '/views'
