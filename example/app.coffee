@@ -17,12 +17,11 @@ app.before (next) ->
   next()
 
 app.get '/', ->
-  @cookie message: {value: 'Sinatra; it’s a framework', path: '/hello', http: true}
+  @cookie message: {value: 'Sinatra; it’s a framework', path: '/hello'}
   @title = 'Almost Sinatra'
   @haml 'index'
 
 app.get 'hello', ->
-  console.log @request.headers.cookie
   @ejs 'hello', locals: {name: @params.name, message: @cookies.message}
 
 app.get '/counter', ->
