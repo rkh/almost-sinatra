@@ -4,10 +4,10 @@
 , "author"          : "James Coglan <jcoglan@gmail.com> (http://jcoglan.com/)"
 , "keywords"        : ["web", "framework", "lightweight"]
 
-, "version"         : "1.0.0"
+, "version"         : "1.0.1"
 , "engines"         : {"node": ">=0.4.0"}
 , "main"            : "./berliner"
-, "dependencies"    : {"async":"", "faye-websocket":"", "vault":"", "haml":"", "ejs":"", "mime":""}
+, "dependencies"    : {"async":"", "faye-websocket":"", "vault-cipher":"", "haml":"", "ejs":"", "mime":""}
 , "devDependencies" : {"coffee-script":""}
 
 , "licenses"        : [ { "type"  : "MIT"
