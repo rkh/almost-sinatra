@@ -1,5 +1,8 @@
 # Almost Sinatra
 
+[![Code Climate](https://codeclimate.com/github/rkh/almost-sinatra.png)](https://codeclimate.com/github/rkh/almost-sinatra)
+[![Build Status](https://travis-ci.org/rkh/almost-sinatra.png?branch=master)](https://travis-ci.org/rkh/almost-sinatra)
+
     "until programmers stop acting like obfuscation is morally hazardous,
     they’re not artists, just kids who don’t want their food to touch." - _why
 
